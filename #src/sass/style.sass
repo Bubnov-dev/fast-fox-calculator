@@ -12,6 +12,11 @@ body
 .hidden
   display: none !important
 
+.wrong .calculator__form-item-input
+    input, label, textarea, .choices__inner
+      border-bottom: 2px solid $red !important
+
+
 .calculator input[type=file]
   display: none
 
@@ -246,7 +251,9 @@ body
 
   input
     &[type=text]
-      border: 1px solid #e1e1e1 !important
+      border: 1px solid #e1e1e1
+      border-bottom: 2px solid #e1e1e1
+
       -webkit-box-sizing: border-box
       box-sizing: border-box
       border-radius: 4px
@@ -283,6 +290,7 @@ body
     height: 40px
     display: grid
     place-items: center
+    cursor: pointer
 
   input[type=radio]:checked + label
     border-bottom: 2px solid #02b35d
@@ -324,6 +332,8 @@ body
     resize: none
     outline: 0
     border: 1px solid #e1e1e1
+    border-bottom: 2px solid #e1e1e1
+
     -webkit-box-sizing: border-box
     box-sizing: border-box
     border-radius: 4px

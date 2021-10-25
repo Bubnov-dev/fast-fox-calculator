@@ -34,6 +34,13 @@ body {
   display: none !important;
 }
 
+.wrong .calculator__form-item-input input,
+.wrong .calculator__form-item-input label,
+.wrong .calculator__form-item-input textarea,
+.wrong .calculator__form-item-input .choices__inner {
+  border-bottom: 2px solid red !important;
+}
+
 .calculator input[type=file] {
   display: none;
 }
@@ -302,7 +309,8 @@ body {
 }
 
 .calculator__form-item-input input[type=text] {
-  border: 1px solid #e1e1e1 !important;
+  border: 1px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 4px;
@@ -344,6 +352,7 @@ body {
   height: 40px;
   display: grid;
   place-items: center;
+  cursor: pointer;
 }
 
 .calculator__form-item-input input[type=radio]:checked + label {
@@ -400,6 +409,7 @@ body {
   resize: none;
   outline: 0;
   border: 1px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 4px;
