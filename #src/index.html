@@ -71,7 +71,7 @@
         <div class="row">
             <div class="col-xs-12 col-xl-8 calculator__form">
                 <div class="row">
-                    <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item wrong">
+                    <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item">
                         <div class="calculator__form-item-title">
                             Панелизация
                             <div class="calculator__info">
@@ -90,7 +90,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item wrong">
+                    <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item">
                         <div class="calculator__form-item-title">
                             Количество плат по оси X 
                             <div class="calculator__info">
@@ -101,7 +101,7 @@
                         
                         </div>
                         <div class="calculator__form-item-input">
-                            <input type="text">
+                            <input name="numX" disabled="disabled" type="text">
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item">
@@ -115,7 +115,7 @@
                         
                         </div>
                         <div class="calculator__form-item-input">
-                            <input type="text">
+                            <input name="numY" disabled="disabled" type="text">
                         </div>
                     </div>
 
@@ -200,9 +200,9 @@
                         
                         </div>
                         <div class="calculator__form-item-input">
-                            <input type="text">
+                            <input id="width" type="text">
                             x
-                            <input type="text">
+                            <input id="height" type="text">
                         </div>
                     </div>
 
@@ -217,7 +217,7 @@
                         
                         </div>
                         <div class="calculator__form-item-input">
-                            <select name="panels" class="custom-select">
+                            <select name="panels-num" class="custom-select">
                                 <option value="">Не выбрано</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -278,6 +278,10 @@
                                 <label for="color-blue"><div class="color-circle cc-blue"></div> <span class="color-text">Синий</span></label>
                                 <input name="color-mask" type="radio" id="color-yellow" value="yellow">
                                 <label for="color-yellow"><div class="color-circle cc-yellow"></div> <span class="color-text">Желтый</span></label>
+                                <input name="color-mask" type="radio" id="color-white" value="white">
+                                <label for="color-white"><div class="color-circle cc-white"></div> <span class="color-text">Белый</span></label>
+                                <input name="color-mask" type="radio" id="color-black" value="black">
+                                <label for="color-black"><div class="color-circle cc-black"></div> <span class="color-text">Черный</span></label>
                             </div>
                         </div>
                     </div>
@@ -294,16 +298,11 @@
                         </div>
                         <div class="calculator__form-item-input">
                             <div class="radio-wrapper color-wrapper">
-                                <input name="sh-color" type="radio" id="sh-color-green">
-                                <label for="sh-color-green"><div class="color-circle cc-green"></div><span class="color-text">Зеленый</span></label>
-                                <input name="sh-color" type="radio" id="sh-color-purple">
-                                <label for="sh-color-purple"><div class="color-circle cc-purple"></div><span class="color-text">Фиолетовый</span></label>
-                                <input name="sh-color" type="radio" id="sh-color-red">
-                                <label for="sh-color-red"><div class="color-circle cc-red"></div> <span class="color-text">Красный</span></label>
-                                <input name="sh-color" type="radio" id="sh-color-blue">
-                                <label for="sh-color-blue"><div class="color-circle cc-blue"></div><span class="color-text">Синий</span> </label>
-                                <input name="sh-color" type="radio" id="sh-color-yellow">
-                                <label for="sh-color-yellow"><div class="color-circle cc-yellow"></div><span class="color-text">Желтый</span> </label>
+                                <input checked name="sh-color" type="radio" id="sh-color-white">
+                                <div class="label" for="label sh-color-white"><div class=" color-circle cc-white"></div><span class="color-text">Белый</span></div>
+                                <input name="sh-color" type="radio" id="sh-color-black">
+                                <div class="label" for=" sh-color-black"><div class=" color-circle cc-black"></div><span class="color-text">Черный</span></div>
+                                
                             </div>
                         </div>
                     </div>
@@ -342,10 +341,10 @@
                         <div class="calculator__form-item-input">
                             <div class="radio-wrapper">
                                 <input name="finish" type="radio" id="finish-HASL" value="HASL">
-                                <label for="finish">HASL(with lead)</label>
+                                <label for="finish-HASL">HASL(with lead)</label>
 
                                 <input name="finish" type="radio" id="finish-LFHASL" value="LFHASL">
-                                <label for="finish-LFHAL">LeadFreeHASL-RoHS</label>
+                                <label for="finish-LFHASL">LeadFreeHASL-RoHS</label>
 
                                 <input name="finish" type="radio" id="finish-ENIG" value="ENIG">
                                 <label for="finish-ENIG">ENIG-RoHS</label>

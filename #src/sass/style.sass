@@ -13,7 +13,7 @@ body
   display: none !important
 
 .wrong .calculator__form-item-input
-    input, label, textarea, .choices__inner
+    input, label, .label, textarea, .choices__inner
       border-bottom: 2px solid $red !important
 
 
@@ -266,7 +266,7 @@ body
       display: none
 
     &[type=checkbox]
-      + label
+      + label, + .label
         width: 24px
         height: 24px
         border-bottom: 1px solid #e1e1e1
@@ -274,10 +274,19 @@ body
         svg
           opacity: 0
 
+
+      &:checked + .label svg
+        opacity: 1
       &:checked + label svg
         opacity: 1
 
   label
+    cursor: pointer
+
+  .label
+    cursor: no-drop
+    
+  label, .label
     border: 1px solid #e1e1e1
     border-bottom: 2px solid #e1e1e1
     -webkit-box-sizing: border-box
@@ -290,9 +299,8 @@ body
     padding: 0 15px
     display: grid
     place-items: center
-    cursor: pointer
 
-  input[type=radio]:checked + label
+  input[type=radio]:checked + label, input[type=radio]:checked + .label
     border-bottom: 2px solid #02b35d
 
   .radio-wrapper
@@ -303,10 +311,10 @@ body
     gap: 13px
 
     @media screen and ( max-width: $mobile )
-        label .color-text
+        label .color-text, .label .color-text
             display: none
   .color-wrapper
-        label
+        label, .label
             display: flex
             gap: 15px
             width: fit-content
@@ -326,6 +334,14 @@ body
                     background: $blue
                 &.cc-yellow
                     background: $yellow
+                &.cc-black
+                  background: black
+                &.cc-white
+                  background: white
+                  width: 12px
+                  height: 12px
+                  border: 1px solid $back-grey
+
 
 
   textarea

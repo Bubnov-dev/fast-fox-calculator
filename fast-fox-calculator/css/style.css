@@ -42,6 +42,7 @@ body {
 
 .wrong .calculator__form-item-input input,
 .wrong .calculator__form-item-input label,
+.wrong .calculator__form-item-input .label,
 .wrong .calculator__form-item-input textarea,
 .wrong .calculator__form-item-input .choices__inner {
   border-bottom: 2px solid red !important;
@@ -331,14 +332,20 @@ body {
   display: none;
 }
 
-.calculator__form-item-input input[type=checkbox] + label {
+.calculator__form-item-input input[type=checkbox] + label,
+.calculator__form-item-input input[type=checkbox] + .label {
   width: 24px;
   height: 24px;
   border-bottom: 1px solid #e1e1e1;
 }
 
-.calculator__form-item-input input[type=checkbox] + label svg {
+.calculator__form-item-input input[type=checkbox] + label svg,
+.calculator__form-item-input input[type=checkbox] + .label svg {
   opacity: 0;
+}
+
+.calculator__form-item-input input[type=checkbox]:checked + .label svg {
+  opacity: 1;
 }
 
 .calculator__form-item-input input[type=checkbox]:checked + label svg {
@@ -346,6 +353,15 @@ body {
 }
 
 .calculator__form-item-input label {
+  cursor: pointer;
+}
+
+.calculator__form-item-input .label {
+  cursor: no-drop;
+}
+
+.calculator__form-item-input label,
+.calculator__form-item-input .label {
   border: 1px solid #e1e1e1;
   border-bottom: 2px solid #e1e1e1;
   -webkit-box-sizing: border-box;
@@ -358,10 +374,10 @@ body {
   padding: 0 15px;
   display: grid;
   place-items: center;
-  cursor: pointer;
 }
 
-.calculator__form-item-input input[type=radio]:checked + label {
+.calculator__form-item-input input[type=radio]:checked + label,
+.calculator__form-item-input input[type=radio]:checked + .label {
   border-bottom: 2px solid #02b35d;
 }
 
@@ -374,7 +390,8 @@ body {
   gap: 13px;
 }
 
-.calculator__form-item-input .color-wrapper label {
+.calculator__form-item-input .color-wrapper label,
+.calculator__form-item-input .color-wrapper .label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -385,30 +402,49 @@ body {
   padding: 1rem;
 }
 
-.calculator__form-item-input .color-wrapper label .color-circle {
+.calculator__form-item-input .color-wrapper label .color-circle,
+.calculator__form-item-input .color-wrapper .label .color-circle {
   width: 13px;
   height: 13px;
   border-radius: 50%;
 }
 
-.calculator__form-item-input .color-wrapper label .color-circle.cc-green {
+.calculator__form-item-input .color-wrapper label .color-circle.cc-green,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-green {
   background: #02B35D;
 }
 
-.calculator__form-item-input .color-wrapper label .color-circle.cc-purple {
+.calculator__form-item-input .color-wrapper label .color-circle.cc-purple,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-purple {
   background: purple;
 }
 
-.calculator__form-item-input .color-wrapper label .color-circle.cc-red {
+.calculator__form-item-input .color-wrapper label .color-circle.cc-red,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-red {
   background: red;
 }
 
-.calculator__form-item-input .color-wrapper label .color-circle.cc-blue {
+.calculator__form-item-input .color-wrapper label .color-circle.cc-blue,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-blue {
   background: blue;
 }
 
-.calculator__form-item-input .color-wrapper label .color-circle.cc-yellow {
+.calculator__form-item-input .color-wrapper label .color-circle.cc-yellow,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-yellow {
   background: yellow;
+}
+
+.calculator__form-item-input .color-wrapper label .color-circle.cc-black,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-black {
+  background: black;
+}
+
+.calculator__form-item-input .color-wrapper label .color-circle.cc-white,
+.calculator__form-item-input .color-wrapper .label .color-circle.cc-white {
+  background: white;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #E1E1E1;
 }
 
 .calculator__form-item-input textarea {
@@ -641,7 +677,8 @@ body {
     background: white;
   }
 
-  .calculator__form-item-input .radio-wrapper label .color-text {
+  .calculator__form-item-input .radio-wrapper label .color-text,
+  .calculator__form-item-input .radio-wrapper .label .color-text {
     display: none;
   }
 

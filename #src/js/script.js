@@ -1,4 +1,3 @@
-var test2 ="s";
 
 $(document).ready(function () {
     
@@ -21,7 +20,7 @@ $(document).ready(function () {
       });
 
       function show() {
-          tooltip.attr('data-show', '');
+          tooltip.setAttribute('data-show', '');
         
           // We need to tell Popper to update the tooltip position
           // after we show the tooltip, otherwise it will be incorrect
@@ -174,12 +173,10 @@ $(document).ready(function () {
         $("[name=\"color-mask\"]:regex(value, purple)").attr("disabled", "disabled")
         $("[name=\"width-cu\"]:regex(value, 70)").attr("disabled", "disabled")
       }
-
       if($("[name=\"layers\"]:checked").val() == "4"){
         $("[name=\"width-plate\"]:regex(value, 0.4|0.6)").attr("disabled", "disabled")
         $("[name=\"width-cu\"]:regex(value, 70)").attr("disabled", "disabled")
       }
-
       if($("[name=\"layers\"]:checked").val() == "6"){
         $("[name=\"width-plate\"]:regex(value, 0.4|0.6|0.8|1.0)").attr("disabled", "disabled")
         $("[name=\"color-mask\"]:regex(value, purple)").attr("disabled", "disabled")
@@ -188,14 +185,84 @@ $(document).ready(function () {
       //Панелизация
       if($("[name=\"panels\"]").val() == "service"){
         $("[name=\"designs\"]:regex(value, [2-9])").attr("disabled", "disabled")
+        $("[name=\"width-plate\"]:regex(value, 0.4)").attr("disabled", "disabled")
+        ///todo дополнительные поля??
+      }
 
+      if($.inArray($("[name=\"panels\"]").val(), ["client", "service"]) == -1){
+        $("input:regex(name, numX|numY)").attr("disabled", "disabled");
+      }
+
+      //толщина платы
+      if($.inArray($("[name=\"width-plate\"]:checked").val(), ["0.4", "0.6", "0.8", "1.0", "1.2"] )!= -1){
+        $("[name=\"width-cu\"]:regex(value, 70)").attr("disabled", "disabled")
+      }
+      if($.inArray($("[name=\"width-plate\"]:checked").val(), ["0.4", "0.6"] )!= -1){
+        $("[name=\"layers\"]:regex(value, 1|4|6)").attr("disabled", "disabled")
+      }
+      if($.inArray($("[name=\"width-plate\"]:checked").val(), ["0.4"] )!= -1){
+        $("[name=\"finish\"]:regex(value, LFHASL|ENIG)").attr("disabled", "disabled")
+        $("[name=\"color-mask\"]:regex(value, red|yellow)").attr("disabled", "disabled")
+      }
+
+      //Цвет маски
+      if($("[name=\"color-mask\"]:checked").val() == "purple"){
+        $("[name=\"width-plate\"]:regex(value, 0.4|0.6)").attr("disabled", "disabled")
+        $("[name=\"layers\"]:regex(value, 1|6)").attr("disabled", "disabled")
+      }
+      if($.inArray($("[name=\"color-mask\"]:checked").val(), ["red", "yellow"] )!= -1){
+        $("[name=\"width-plate\"]:regex(value, 0.4)").attr("disabled", "disabled")
+      }
+      if($("[name=\"color-mask\"]:checked").val() == "black"){
+        $("[name=\"width-cu\"]:regex(value, 70)").attr("disabled", "disabled")
+      }
+
+      //Цвет шелкографии
+      if($("[name=\"color-mask\"]:checked").val() == "white"){
+        $("#sh-color-black").prop('checked', true);
+      }
+      else{
+        $("#sh-color-white").prop('checked', true);
       }
 
 
 
-
-
+      //расчет коэффициента
       $("[disabled]").prop('checked', false);
+      let cf = 1;
+      $("input:checked").each(function(){
+        let input = $(this)
+        let cfsMap = cfs.get($(this).attr("name"));
+        console.log(input);
+        console.log(input.attr("name"));
+        if (cfsMap){
+          console.log(cfsMap)
+          console.log("value of " + input.attr("value") +" is " + cfsMap.get(input.attr("value")));
+          if (cfsMap.get(input.attr("value")))
+             cf*= cfsMap.get(input.attr("value"));
+        }
+        else{
+          console.log("none")
+        }
+        
+        //$(this).attr("name")])
+      })
+
+      //расчет площади 
+      let S = 1;
+      console.log("panels: " + $("[name=\"panels-num\"]").val())
+      try{
+        S = $("#width").val() * $("#height").val() / 10000 * $("[name=\"panels-num\"]").val();
+
+      } 
+      catch{
+        S = 1
+      }
+      console.log("S = " + S)
+
+
+      $(".calculator__result-price-rub .calculator__result-value").html(cf)
+
       
       if(needDoubleReftesh){
         needDoubleReftesh = false
@@ -211,5 +278,14 @@ $(document).ready(function () {
    $("input, select").on("change", function(){
      refresh()
    })
+
+   $("input[type=\"text\"]").on("keyup", function(){
+    let val = $(this).val();
+    console.log(val)
+    val = val.replace(/[^1-9]/g, '');
+
+    $(this).val(val)
+    // $(this)[0].value.replace('/[^1-9]/g', ' ');
+  })
 })
 
