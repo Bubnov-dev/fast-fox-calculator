@@ -1,1 +1,1 @@
-@charset "UTF-8";body{margin:0;padding:0}*{-webkit-box-sizing:border-box;box-sizing:border-box}.hidden{display:none!important}@media screen and (max-width:768px){body{background:#fff}}
+@charset "UTF-8";body{margin:0;padding:0}*{-webkit-box-sizing:border-box;box-sizing:border-box}.hidden{display:none!important}[disabled=disabled],[disabled=disabled]+label{cursor:no-drop!important;background:#e1e1e1}@media screen and (max-width:768px){body{background:#fff}}

@@ -20,6 +20,12 @@ body {
   display: none !important;
 }
 
+[disabled="disabled"],
+[disabled="disabled"] + label {
+  cursor: no-drop !important;
+  background: #E1E1E1;
+}
+
 @media screen and (max-width: 768px) {
   body {
     background: white;
