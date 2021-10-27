@@ -59,7 +59,6 @@ $(document).ready(function () {
     selects();
     input = $("#gerber-file")
     input.on('change', function(e){
-      console.log(input[0].files[0].size)
       if (input[0].files[0].size > 10000000){
         input.val('');
       }
@@ -135,7 +134,21 @@ $(document).ready(function () {
       ]
     ])
 
-    console.log(cfs);
+    // [максимальное количество дм2, цена за дм2]
+    let prices = [
+      [5, 10],
+      [10, 9],
+      [20, 8],
+      [30, 7],
+      [50, 6],
+      [80, 5],
+      [100, 3],
+      [500, 1.8],
+      [1000, 1.7],
+      [2000, 1.6],
+      [3000, 1.5],
+      [5000,1.4]
+    ]
 
     //отслеживание инпутов, реализация логики
     jQuery.expr[':'].regex = function(elem, index, match) {
@@ -225,44 +238,25 @@ $(document).ready(function () {
         $("#sh-color-white").prop('checked', true);
       }
 
-
-
-      //расчет коэффициента
       $("[disabled]").prop('checked', false);
-      let cf = 1;
-      $("input:checked").each(function(){
-        let input = $(this)
-        let cfsMap = cfs.get($(this).attr("name"));
-        console.log(input);
-        console.log(input.attr("name"));
-        if (cfsMap){
-          console.log(cfsMap)
-          console.log("value of " + input.attr("value") +" is " + cfsMap.get(input.attr("value")));
-          if (cfsMap.get(input.attr("value")))
-             cf*= cfsMap.get(input.attr("value"));
+
+
+      
+      result()
+      
+      //автовыбор еднственного оставшегося
+      let attrs = new Set();
+      $("input[type=\"radio\"]").each(function (){
+        attrs.add($(this).attr("name"))
+      })
+      attrs.forEach( (value, valueAgain, attrs) => {
+        let inputGroup = $("input[name=" + value + "]:not([disabled])");
+        if(inputGroup.length==1){
+          inputGroup.prop("checked", true)
         }
-        else{
-          console.log("none")
-        }
-        
-        //$(this).attr("name")])
       })
 
-      //расчет площади 
-      let S = 1;
-      console.log("panels: " + $("[name=\"panels-num\"]").val())
-      try{
-        S = $("#width").val() * $("#height").val() / 10000 * $("[name=\"panels-num\"]").val();
-
-      } 
-      catch{
-        S = 1
-      }
-      console.log("S = " + S)
-
-
-      $(".calculator__result-price-rub .calculator__result-value").html(cf)
-
+      //повторение refresh()
       
       if(needDoubleReftesh){
         needDoubleReftesh = false
@@ -273,6 +267,56 @@ $(document).ready(function () {
       }
     }
 
+    function result(){
+      
+      //расчет коэффициента
+      let cf = 1;
+      $("input:checked").each(function(){
+        let input = $(this)
+        let cfsMap = cfs.get($(this).attr("name"));
+        if (cfsMap){
+          if (cfsMap.get(input.attr("value")))
+             cf*= cfsMap.get(input.attr("value"));
+        }
+        else{
+        }
+        
+
+      })
+
+      console.log("cf = " + cf);
+      //расчет площади 
+      let S = 1;
+      try{
+        S = $("#width").val() * $("#height").val() / 10000 * $("[name=\"panels-num\"]").val();
+
+      } 
+      catch{
+        S = 1
+      }
+
+
+      //расчет базовой цены
+
+      let basePrice = [prices[0][1]];
+      for( let i=0; i<prices.length; i++){
+        if(prices[i][0]>S){
+          basePrice = prices[i][1];
+          i = prices.length;
+        }
+      }
+
+
+      // Расчет итоговой цены
+
+      let price = Math.ceil(basePrice * cf * S)
+
+
+
+      $(".calculator__result-price-rub .calculator__result-value").html(price)
+
+    }
+
   refresh()
 
    $("input, select").on("change", function(){
@@ -281,11 +325,14 @@ $(document).ready(function () {
 
    $("input[type=\"text\"]").on("keyup", function(){
     let val = $(this).val();
-    console.log(val)
-    val = val.replace(/[^1-9]/g, '');
+    val = val.replace(/[^0-9]/g, '');
 
     $(this).val(val)
+
+    result()
     // $(this)[0].value.replace('/[^1-9]/g', ' ');
   })
+
+
 })
 
