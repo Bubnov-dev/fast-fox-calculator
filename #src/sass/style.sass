@@ -104,6 +104,8 @@ body
     text-align: left
     margin-bottom: 15px
 
+    color: $title-black
+
 .calculator__title-desc
   font-size: 14px
   font-style: normal
@@ -112,9 +114,14 @@ body
   letter-spacing: 0
   text-align: left
 
+  color: $title-black
+
 .calculator__progress
   margin-bottom: 61px
   border-bottom: 1px solid #e5e5e5
+
+  input
+    display: none
 
   .row
     -webkit-box-pack: justify
@@ -148,8 +155,7 @@ body
   line-height: 21px
   letter-spacing: 0
   text-align: center
-
-  &.active
+input:checked + .calculator__progress-stage
     &::after
       content: ""
       position: absolute
@@ -201,6 +207,8 @@ body
   line-height: 15px
   letter-spacing: 0
   text-align: left
+.calculator__step-1 .calculator__form-item-input input[type=text]
+  width: 80px
 
 .calculator__form-item-input
   display: -webkit-box
@@ -257,7 +265,6 @@ body
       -webkit-box-sizing: border-box
       box-sizing: border-box
       border-radius: 4px
-      width: 80px
       height: 40px
       outline: 0
       padding: 1rem
@@ -267,6 +274,9 @@ body
 
     &[type=checkbox]
       + label, + .label
+        display: grid
+        place-items: center
+        padding: 0
         width: 24px
         height: 24px
         border-bottom: 1px solid #e1e1e1
@@ -356,17 +366,17 @@ body
     padding: 1rem
 
 .calculator__result
-  position: fixed
-  bottom: 0
+  position: sticky
+  top: 2rem
   background: white
   place-self: end
   width: -webkit-fit-content
   width: -moz-fit-content
   width: fit-content
 
-.calculator__result-wrapper
-  place-self: end
-  display: grid
+// .calculator__result-wrapper
+//   place-self: end
+//   display: grid
 
 .calculator__result-sub-info
   font-size: 14px
@@ -382,7 +392,7 @@ body
   gap: 1rem
 
 .calculator__result-main-info
-  font-family: Roboto Condensed
+  font-family: 'Roboto'
   font-size: 30px
   font-style: normal
   font-weight: 400
@@ -395,7 +405,7 @@ body
   gap: 1rem
 
 .calculator__result-price
-  font-family: Roboto Condensed
+  font-family: 'Roboto'
   color: #131313
   display: -webkit-box
   display: -ms-flexbox
@@ -528,6 +538,31 @@ body
 
     svg
       margin-right: 4px
+
+.calculator__resul-S .calculator__result-value::after
+    content: " м²"
+
+.calculator__result-weight .calculator__result-value::after
+    content: " кг"
+
+.checkbox-item
+    place-self: start
+    display: flex
+    gap: 14px
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+.calculator__result-order
+    place-self: start
+#progress-1 + label, #progress-2 + label
+  cursor: pointer
+
+.name-and-surname input
+  width: 40%
+
 
 @media screen and (max-width: 1230px)
   .calculator__result

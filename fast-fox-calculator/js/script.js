@@ -1,6 +1,4 @@
-
-$(document).ready(function () {
-    
+$(document).ready(function($){
     const buttons = document.querySelectorAll('.calculator__info');
     const tooltips = document.querySelectorAll('.calculator__info-tooltip');
 
@@ -52,12 +50,19 @@ $(document).ready(function () {
           placeholder: true,
           placeholderValue: "none",
         });
+        $(".calculator__result-reset").on("click", function(){
+          console.log(choices)
+          $("input").removeAttr("disabled")
+          $("option").removeAttr("disabled")
+          choices.setChoiceByValue("")
+        });
+        
       })
      
     }
 
     selects();
-    input = $("#gerber-file")
+    input = $(".gerber-file")
     input.on('change', function(e){
       if (input[0].files[0].size > 10000000){
         input.val('');
@@ -92,7 +97,7 @@ $(document).ready(function () {
       [
         'materials', new Map([
           ['FR-4', 1],
-          ["Alu", 1.15]
+          ["alu", 1.15]
         ])
       ],
       [
@@ -150,6 +155,24 @@ $(document).ready(function () {
       [5000,1.4]
     ]
 
+    let FR4Weight = new Map([
+      ["0.4", 1],
+      ["0.6", 1.35],
+      ["0.8", 1.8],
+      ["1.0", 2.2],
+      ["1.2", 2.7],
+      ["1.6", 3.5],
+      ["2.0", 4.4]
+    ])
+
+    let AluWeight = new Map([
+      ["0.8", 2.5],
+      ["1.0", 3.125],
+      ["1.2", 3.75],
+      ["1.6", 4.5],
+      ["2.0", 5.6]
+    ])
+
     //отслеживание инпутов, реализация логики
     jQuery.expr[':'].regex = function(elem, index, match) {
       var matchParams = match[3].split(','),
@@ -204,6 +227,10 @@ $(document).ready(function () {
 
       if($.inArray($("[name=\"panels\"]").val(), ["client", "service"]) == -1){
         $("input:regex(name, numX|numY)").attr("disabled", "disabled");
+        $(".calculator__plats .calculator__form-item-title").html("Количество плат")
+      }
+      else{
+        $(".calculator__plats .calculator__form-item-title").html("Количество панелей")
       }
 
       //толщина платы
@@ -287,13 +314,33 @@ $(document).ready(function () {
       console.log("cf = " + cf);
       //расчет площади 
       let S = 1;
-      try{
-        S = $("#width").val() * $("#height").val() / 10000 * $("[name=\"panels-num\"]").val();
+      let plats = $("#numX").val() * $("#numY").val()
+      if (plats == 0)
+        plats =1
+      
+      S = $("#width").val() * $("#height").val() / 10000 * $("[name=\"panels-num\"]").val()*plats;
 
-      } 
-      catch{
-        S = 1
+      
+      
+
+      $(".calculator__resul-S .calculator__result-value").html((S/100).toFixed(2))
+
+      // Расчет веса
+      let weight;
+      
+
+      console.log("plats " + plats +" - " + $("#numX").val() + " - " + $("#numX").val())
+      if($("[name=\"materials\"]:checked").val() == "alu"){
+        weight = AluWeight.get($("[name=\"width-plate\"]:checked").val()) * S/100
       }
+      else{
+        weight = FR4Weight.get($("[name=\"width-plate\"]:checked").val()) * S/100
+      }
+      if (isNaN(weight)){
+        console.log("weight is nan")
+        weight = 0
+      }
+      $(".calculator__result-weight .calculator__result-value").html(weight.toFixed(2))
 
 
       //расчет базовой цены
@@ -308,22 +355,29 @@ $(document).ready(function () {
 
 
       // Расчет итоговой цены
+      let cfD = 1;
 
-      let price = Math.ceil(basePrice * cf * S)
+      $.getJSON("https://www.cbr-xml-daily.ru/daily_json.js", function(data) {
+          cfD = data.Valute.USD.Value;
+          console.log(cfD)
+          let priceDollar = (basePrice * cf * S)
+          let priceRub = (priceDollar*cfD)
 
+          $(".calculator__result-price-dollar .calculator__result-value").html(Math.ceil(priceDollar))
+          $(".calculator__result-price-rub .calculator__result-value").html(Math.ceil(priceRub));
 
-
-      $(".calculator__result-price-rub .calculator__result-value").html(price)
+      });
+      
 
     }
 
   refresh()
 
-   $("input, select").on("change", function(){
+  $("input, select").on("change", function(){
      refresh()
-   })
+  })
 
-   $("input[type=\"text\"]").on("keyup", function(){
+  $(".calculator__step-1 input[type=\"text\"]").on("keyup", function(){
     let val = $(this).val();
     val = val.replace(/[^0-9]/g, '');
 
@@ -333,6 +387,86 @@ $(document).ready(function () {
     // $(this)[0].value.replace('/[^1-9]/g', ' ');
   })
 
+  $(".calculator__result-reset").on("click", function(){
+    $("input").prop("checked", false)
+    $("input").removeAttr("disabled")
+    $("option").removeAttr("disabled")
+    $("input, textarea, select").val("")
+
+  })
+
+
+  //открытие трафарета
+  $("#stencil").on("change", function(){
+    if ($(this).is(':checked')){
+      $(".calulator__stencil").removeClass("hidden")
+    }
+    else{
+      $(".calulator__stencil").addClass("hidden")
+    }
+  });
+
+
+  // маски
+
+  $("input.email").inputmask({
+    mask: "*{3,20}@*{3,20}.*{2,7}"
+  })
+  $("input.phone").inputmask({
+    mask: "+7 (999) 999-99-99"
+  })
+  $("input.plain-text-input").inputmask({
+    mask: "aa {1,20}"
+  })
+
+
+  //steps
+    
+  function steps(){
+      $(".calculator__step").addClass("hidden")
+      console.log(".calculator__step-"+$("[name=\"progress\"]:checked").val())
+      $(".calculator__step-"+$("[name=\"progress\"]:checked").val()).removeClass("hidden");
+
+      if($("[name=\"progress\"]:checked").val()==2){
+        $("#back-btn").removeClass("hidden")
+      }
+      else{
+        $("#back-btn").addClass("hidden")
+
+      }
+      
+      if($("[name=\"progress\"]:checked").val()==3){
+        $("#new-btn").removeClass("hidden")
+      }
+      else{
+        $("#new-btn").addClass("hidden")
+
+      }
+
+  }
+  steps();
+  $("[name=\"progress\"]").on("change", function(){
+    steps()
+  })
+
+  $("#back-btn").on("click", function(){
+    $("#progress-1").prop("checked", true)
+    steps()
+  })
+
+  $("#order-1").on("click", function(){
+    $("#progress-2").prop("checked", true)
+    steps()
+  })
+  $("#order-2").on("click", function(){
+    if($("#data-check").is(":checked")){
+      $("#progress-3").prop("checked", true)
+      steps()
+      $("#progress-1").prop("disabled", "disabled")
+      $("#progress-2").prop("disabled", "disabled")
+
+    }
+  })
 
 })
 

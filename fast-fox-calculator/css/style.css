@@ -9,6 +9,7 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: 'PT Mono';
 }
 
 * {
@@ -147,6 +148,7 @@ body {
   letter-spacing: 0;
   text-align: left;
   margin-bottom: 15px;
+  color: #131313;
 }
 
 .calculator__title-desc {
@@ -156,11 +158,16 @@ body {
   line-height: 16px;
   letter-spacing: 0;
   text-align: left;
+  color: #131313;
 }
 
 .calculator__progress {
   margin-bottom: 61px;
   border-bottom: 1px solid #e5e5e5;
+}
+
+.calculator__progress input {
+  display: none;
 }
 
 .calculator__progress .row {
@@ -200,7 +207,7 @@ body {
   text-align: center;
 }
 
-.calculator__progress-stage.active::after {
+input:checked + .calculator__progress-stage::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -210,7 +217,7 @@ body {
   background: #02b35d;
 }
 
-.calculator__progress-stage.active .calculator__progress-num {
+input:checked + .calculator__progress-stage .calculator__progress-num {
   background: #000;
   color: #fff;
   border: 2px solid #000;
@@ -256,6 +263,10 @@ body {
   line-height: 15px;
   letter-spacing: 0;
   text-align: left;
+}
+
+.calculator__step-1 .calculator__form-item-input input[type=text] {
+  width: 80px;
 }
 
 .calculator__form-item-input {
@@ -321,7 +332,6 @@ body {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-radius: 4px;
-  width: 80px;
   height: 40px;
   outline: 0;
   padding: 1rem;
@@ -334,6 +344,9 @@ body {
 
 .calculator__form-item-input input[type=checkbox] + label,
 .calculator__form-item-input input[type=checkbox] + .label {
+  display: grid;
+  place-items: center;
+  padding: 0;
   width: 24px;
   height: 24px;
   border-bottom: 1px solid #e1e1e1;
@@ -459,18 +472,14 @@ body {
 }
 
 .calculator__result {
-  position: fixed;
-  bottom: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
   background: white;
   place-self: end;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-}
-
-.calculator__result-wrapper {
-  place-self: end;
-  display: grid;
 }
 
 .calculator__result-sub-info {
@@ -488,7 +497,7 @@ body {
 }
 
 .calculator__result-main-info {
-  font-family: Roboto Condensed;
+  font-family: 'Roboto';
   font-size: 30px;
   font-style: normal;
   font-weight: 400;
@@ -502,7 +511,7 @@ body {
 }
 
 .calculator__result-price {
-  font-family: Roboto Condensed;
+  font-family: 'Roboto';
   color: #131313;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -655,6 +664,41 @@ body {
 
 .calculator__footer .back-btn svg {
   margin-right: 4px;
+}
+
+.calculator__resul-S .calculator__result-value::after {
+  content: " м²";
+}
+
+.calculator__result-weight .calculator__result-value::after {
+  content: " кг";
+}
+
+.checkbox-item {
+  place-self: start;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.calculator__result-order {
+  place-self: start;
+}
+
+#progress-1 + label,
+#progress-2 + label {
+  cursor: pointer;
+}
+
+.name-and-surname input {
+  width: 40%;
 }
 
 @supports (-webkit-appearance: none) {
