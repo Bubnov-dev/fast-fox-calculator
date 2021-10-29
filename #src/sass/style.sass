@@ -15,7 +15,17 @@ body
 .wrong .calculator__form-item-input
     input, label, .label, textarea, .choices__inner
       border-bottom: 2px solid $red !important
+.wrong, .wrong + label, .wrong + .label, .wrong + textarea, .wrong + label .calculator__form-item-title
+  border-bottom: 2px solid $red !important
 
+.gerber-file + label .calculator__form-item-title
+  padding: .5rem
+
+.checkForm
+  color: $red
+  margin-top: 1rem
+  max-width: 216px
+  font-size: 13px
 
 .calculator input[type=file]
   display: none
@@ -123,6 +133,9 @@ body
   input
     display: none
 
+  [disabled] + label
+    cursor: context-menu !important
+
   .row
     -webkit-box-pack: justify
     -ms-flex-pack: justify
@@ -144,6 +157,7 @@ body
     align-items: center
 
 .calculator__progress-stage
+  background: white !important
   gap: 17px
   -webkit-box-pack: center
   -ms-flex-pack: center
@@ -187,7 +201,7 @@ input:checked + .calculator__progress-stage
   color: #949494
 
 .calculator__form-item-title
-  font-size: 16px
+  font-size: 15px
   font-style: normal
   font-weight: 400
   line-height: 18px
@@ -219,9 +233,14 @@ input:checked + .calculator__progress-stage
   -webkit-box-align: center
   -ms-flex-align: center
   align-items: center
+  .is-open .choices__inner
+    border: 1px solid #e1e1e1 
+
+  .is-focused .choices__inner
+    border: 1px solid #e1e1e1 
 
   .choices__inner
-    border: 1px solid #e1e1e1 !important
+    border: 1px solid #e1e1e1 
     -webkit-box-sizing: border-box
     box-sizing: border-box
     border-radius: 4px
@@ -273,21 +292,29 @@ input:checked + .calculator__progress-stage
       display: none
 
     &[type=checkbox]
-      + label, + .label
+      + label .label
+        cursor: pointer
         display: grid
         place-items: center
         padding: 0
-        width: 24px
-        height: 24px
+        width: 24px !important
+        height: 24px !important
         border-bottom: 1px solid #e1e1e1
 
         svg
           opacity: 0
 
+    &[type=checkbox] + label
+      border: none
+      display: flex
+      gap: 10px
+      height: 24px
+      padding: 0
 
-      &:checked + .label svg
+
+    &[type=checkbox]:checked + .label svg
         opacity: 1
-      &:checked + label svg
+    &[type=checkbox]:checked + label svg
         opacity: 1
 
   label
@@ -474,9 +501,10 @@ input:checked + .calculator__progress-stage
 .calculator__result-order
   width: 216px
   height: 40px
-  background: #515151
+  background: $green
   border-radius: 4px
-  border: 2px solid #515151
+  border: 2px solid $green
+
   color: #fff
   -webkit-transition: .3s
   -o-transition: .3s
@@ -516,6 +544,9 @@ input:checked + .calculator__progress-stage
     -ms-flex-align: center
     align-items: center
     gap: 5px
+    a
+      text-decoration: none
+      color: black
 
   .back-btns
     grid-column: 1/2
@@ -534,7 +565,7 @@ input:checked + .calculator__progress-stage
     line-height: 18px
     letter-spacing: 0
     text-align: right
-    text-decoration: underline
+    // text-decoration: underline
 
     svg
       margin-right: 4px

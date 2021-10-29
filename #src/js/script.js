@@ -52,8 +52,8 @@ $(document).ready(function($){
         });
         $(".calculator__result-reset").on("click", function(){
           console.log(choices)
-          $("input").removeAttr("disabled")
-          $("option").removeAttr("disabled")
+          $(".calculator__form input").removeAttr("disabled")
+          $(".calculator__form option").removeAttr("disabled")
           choices.setChoiceByValue("")
         });
         
@@ -189,7 +189,11 @@ $(document).ready(function($){
 
     let needDoubleReftesh = true
     function refresh(){
-      $("input").removeAttr("disabled")
+      console.log("none disabled!")
+      $(".calculator__form input").removeAttr("disabled")
+      $("*").removeClass("wrong")
+      $(".checkForm").addClass("hidden")
+
 
 
       //Материал
@@ -283,6 +287,9 @@ $(document).ready(function($){
         }
       })
 
+      
+
+
       //повторение refresh()
       
       if(needDoubleReftesh){
@@ -370,10 +377,10 @@ $(document).ready(function($){
       
 
     }
-
+  $("#stencil").prop("checked", false)
   refresh()
 
-  $("input, select").on("change", function(){
+  $(".calculator__step input, .calculator__step select, .calculator__step textarea").on("change", function(){
      refresh()
   })
 
@@ -389,8 +396,8 @@ $(document).ready(function($){
 
   $(".calculator__result-reset").on("click", function(){
     $("input").prop("checked", false)
-    $("input").removeAttr("disabled")
-    $("option").removeAttr("disabled")
+    $(".calculator__form input").removeAttr("disabled")
+    $(".calculator__form option").removeAttr("disabled")
     $("input, textarea, select").val("")
 
   })
@@ -399,10 +406,10 @@ $(document).ready(function($){
   //открытие трафарета
   $("#stencil").on("change", function(){
     if ($(this).is(':checked')){
-      $(".calulator__stencil").removeClass("hidden")
+      $(".calculator__stencil").removeClass("hidden")
     }
     else{
-      $(".calulator__stencil").addClass("hidden")
+      $(".calculator__stencil").addClass("hidden")
     }
   });
 
@@ -416,7 +423,7 @@ $(document).ready(function($){
     mask: "+7 (999) 999-99-99"
   })
   $("input.plain-text-input").inputmask({
-    mask: "aa {1,20}"
+    mask: "a{1,20}"
   })
 
 
@@ -454,17 +461,143 @@ $(document).ready(function($){
     steps()
   })
 
-  $("#order-1").on("click", function(){
-    $("#progress-2").prop("checked", true)
-    steps()
+  function checkOrder(){
+    let mainAllInputs = new Set();
+    let mainCheckedInputs = new Set();
+
+    let calculatorAallInputs = new Set();
+    let calculatorCheckedInputs = new Set();
+
+    let canOrder = false
+    $(".calculator__main input:not(#stencil), .calculator__main select, .calculator__main textarea").each(function(){
+      if ($(this).is(":not([disabled])")){
+        mainAllInputs.add($(this).attr('name'))
+      }
+    })
+    $(".calculator__main input:not(#stencil)").each(function(){
+      if ($(this).is("[type=\"radio\"]:checked") || ($(this).is("[type=\"text\"],[type=\"file\"]") && $(this).val()!="")){
+        mainCheckedInputs.add($(this).attr('name'))
+      }
+    })
+    $(".calculator__main select, .calculator__main textarea").each(function(){
+      if ($(this).val()!=""){
+        mainCheckedInputs.add($(this).attr('name'))
+      }
+    })
+
+
+    if ($("#stencil").is(":checked")){
+      $(".calculator__stencil input:not(#stencil), .calculator__stencil select, .calculator__stencil textarea").each(function(){
+        if ($(this).is(":not([disabled])")){
+          calculatorAallInputs.add($(this).attr('name'))
+        }
+      })
+      $(".calculator__stencil input:not(#stencil)").each(function(){
+        if ($(this).is("[type=\"radio\"]:checked") || ($(this).is("[type=\"text\"],[type=\"file\"]") && $(this).val()!="")){
+          calculatorCheckedInputs.add($(this).attr('name'))
+        }
+      })
+      $(".calculator__stencil select, .calculator__stencil textarea").each(function(){
+        if ($(this).val()!=""){
+          calculatorCheckedInputs.add($(this).attr('name'))
+        }
+      })
+    }
+
+    if (mainAllInputs.size == mainCheckedInputs.size && calculatorAallInputs.size == calculatorCheckedInputs.size){
+      canOrder = true
+    }
+    else{
+      $("#checkForm1").removeClass("hidden")
+      mainAllInputs.forEach((item) => {
+        if (!mainCheckedInputs.has(item)) {
+          if($("[name="+item+"]").is("select"))
+            $("[name="+item+"]").parent(".choices__inner").addClass("wrong")
+          else
+            $("[name="+item+"]").addClass("wrong")
+        }
+      });
+
+      calculatorAallInputs.forEach((item) => {
+        if (!calculatorCheckedInputs.has(item)) {
+          if($("[name="+item+"]").is("select"))
+            $("[name="+item+"]").parent(".choices__inner").addClass("wrong")
+          else
+            $("[name="+item+"]").addClass("wrong")
+        }
+      });
+    }
+
+    console.log(mainAllInputs)
+    console.log(mainCheckedInputs)
+    console.log(calculatorAallInputs)
+    console.log(calculatorCheckedInputs)
+    console.log(canOrder)
+    return canOrder;
+  }
+  function checkOrder2(){
+    let mainAllInputs = new Set();
+    let mainCheckedInputs = new Set();
+
+    let canOrder = false
+    $(".calculator__step-2 input:not(#mail-check, #user-promo), .calculator__step-2 select, .calculator__step-2 textarea").each(function(){
+      if ($(this).is(":not([disabled])")){
+        mainAllInputs.add($(this).attr('name'))
+      }
+    })
+    $(".calculator__step-2 input:not(#mail-check, #user-promo)").each(function(){
+      if ($(this).is(":checked") || ($(this).is("[type=\"text\"],[type=\"file\"]") && $(this).val()!="" && $(this).inputmask("isComplete"))){
+        mainCheckedInputs.add($(this).attr('name'))
+      }
+    })
+    $(".calculator__step-2 select, .calculator__step-2 textarea").each(function(){
+      if ($(this).val()!=""){
+        mainCheckedInputs.add($(this).attr('name'))
+      }
+    })
+
+
+    if (mainAllInputs.size == mainCheckedInputs.size ){
+      canOrder = true
+    }
+    else{
+      $("#checkForm2").removeClass("hidden")
+      mainAllInputs.forEach((item) => {
+        if (!mainCheckedInputs.has(item)) {
+          if($("[name="+item+"]").is("select"))
+            $("[name="+item+"]").parent(".choices__inner").addClass("wrong")
+          else
+            $("[name="+item+"]").addClass("wrong")
+        }
+      });
+
+     
+    }
+
+
+    return canOrder;
+  }
+  $("#order-1, #progress-2 + label").on("click", function(){
+      if(checkOrder() && !$("#progress-3").is(":checked")){
+        $("#progress-2").removeAttr("disabled")
+        $("#progress-2").prop("checked", true)
+        
+        steps()
+      }
+      else (
+        $("#progress-2").attr("disabled", "disabled")
+
+      )
   })
   $("#order-2").on("click", function(){
-    if($("#data-check").is(":checked")){
-      $("#progress-3").prop("checked", true)
-      steps()
-      $("#progress-1").prop("disabled", "disabled")
-      $("#progress-2").prop("disabled", "disabled")
+    if(checkOrder2()){
+      if($("#data-check").is(":checked")){
+        $("#progress-3").prop("checked", true)
+        steps()
+        $("#progress-1").prop("disabled", "disabled")
+        $("#progress-2").prop("disabled", "disabled")
 
+      }
     }
   })
 

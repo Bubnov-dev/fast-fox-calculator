@@ -54,11 +54,11 @@
                     </svg>
                         
                 </div>
-                <input type="radio" value="2" name="progress" id="progress-2">
+                <input disabled type="radio" value="2" name="progress" id="progress-2">
 
                 <label for="progress-2" class="my-col-auto calculator__progress-stage">
                     <div class="calculator__progress-num">2</div>
-                    <div class="calculator__progress-text">Расчёт печатных плат</div>
+                    <div class="calculator__progress-text">Оформление заказа</div>
                 </label>
                 <div class="my-col-auto">
                     <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,14 +70,14 @@
 
                 <div for="progress-3" class="my-col-auto calculator__progress-stage">
                     <div class="calculator__progress-num">3</div>
-                    <div class="calculator__progress-text">Расчёт печатных плат</div>
+                    <div class="calculator__progress-text">Подтверждение заказа</div>
                 </div>
             </div>
         </div>
 
         <div class="calculator__step calculator__step-1">
             <div class="row">
-                <div class="col-xs-12 col-xl-9 calculator__form">
+                <div class="col-xs-12 col-xl-9 calculator__form calculator__main">
                     <div class="row">
                         <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item">
                             <div class="calculator__form-item-title">
@@ -92,7 +92,7 @@
                             <div class="calculator__form-item-input">
                                 <select name="panels" class="custom-select">
                                     <option value="">Не выбрано</option>
-                                    <option value="separate">Отдельные платы</option>
+                                    <option selected value="separate">Отдельные платы</option>
                                     <option value="client">Панель клиента</option>
                                     <option value="service">Панель Service Divices</option>
                                 </select>
@@ -197,7 +197,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-md-6 col-lg-5 calculator__form-item">
+                        <div class="col-xs-12 col-md-6 col-lg-4 calculator__form-item">
                             <div class="calculator__form-item-title">
                                 Размер печатной платы, мм3
                                 <div class="calculator__info">
@@ -208,9 +208,9 @@
                             
                             </div>
                             <div class="calculator__form-item-input">
-                                <input id="width" type="text">
+                                <input name="width" id="width" type="text">
                                 x
-                                <input id="height" type="text">
+                                <input name="height" id="height" type="text">
                             </div>
                         </div>
 
@@ -246,7 +246,7 @@
                             </div>
                             <div class="calculator__form-item-input">
                                 <div class="radio-wrapper">
-                                    <input checked name="width-plate" type="radio" id="width-plate-1" value="0.4">
+                                    <input name="width-plate" type="radio" id="width-plate-1" value="0.4">
                                     <label for="width-plate-1">0.4</label>
                                     <input name="width-plate" type="radio" id="width-plate-2" value="0.6">
                                     <label for="width-plate-2">0.6</label>
@@ -372,13 +372,13 @@
                             
                             </div>
                             <div class="calculator__form-item-input">
-                                <textarea name="" id="" cols="30" rows="6"></textarea>
+                                <textarea name="comment" id="" cols="30" rows="6"></textarea>
 
                             </div>
                         </div>
 
                         <div class="col-xs-12 col-lg-4 calculator__form-item">
-                            <input class="gerber-file" id="gerber-file" type="file" accept="zip">
+                            <input name="gerber-file" accept=".zip" class="gerber-file" id="gerber-file" type="file" accept="zip">
                                 <label for="gerber-file">
                                     <div class="calculator__form-item-title">
                                         <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -412,9 +412,11 @@
                             <div class="calculator__form-item-input">
                                 <input id="stencil" type="checkbox">
                                 <label for="stencil">
-                                    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0.95841L5.74934 12L0 5.84467L1.07915 4.75628L5.62301 9.621L12.8122 0L14 0.95841Z" fill="#949494"/>
-                                    </svg>
+                                    <span class="label">
+                                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0.95841L5.74934 12L0 5.84467L1.07915 4.75628L5.62301 9.621L12.8122 0L14 0.95841Z" fill="#949494"/>
+                                        </svg>
+                                    </span>
                                         
                                 </label>
 
@@ -471,12 +473,15 @@
                             <div class="calculator__result-reset">
                                 Сбросить параметры
                             </div>
+                            <div id="checkForm1" class="checkForm hidden">
+                                Вы заполнили не все поля, проверьте форму
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="row col-xs-12 col-xl-9 calculator__form calulator__stencil hidden">
+                <div class="row col-xs-12 col-xl-9 calculator__form calculator__stencil hidden">
                     
                     <div class="calculator__title col-xs-12">
                         <h1 class="h1">Расчёт цены печатной платы онлайн</h1>
@@ -518,12 +523,12 @@
                         
                         </div>
                         <div class="calculator__form-item-input">
-                            <textarea name="" id="" cols="30" rows="6"></textarea>
+                            <textarea name="comment-2" id="" cols="30" rows="6"></textarea>
 
                         </div>
                     </div>
                     <div class="col-xs-12 col-lg-4 calculator__form-item">
-                        <input class ="gerber-file" id="gerber-file-2" type="file" accept="zip">
+                        <input name="gerber-2" class="gerber-file" accept=".zip" id="gerber-file-2" type="file" accept="zip">
                             <label for="gerber-file-2">
                                 <div class="calculator__form-item-title">
                                     <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -675,23 +680,34 @@
                             </div>
                             <div class="calculator__form-item-input checkbox-item">
 
-                                <input id="data-check" type="checkbox">
+                                <input name="agree" id="data-check" type="checkbox">
                                 <label for="data-check">
-                                    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0.95841L5.74934 12L0 5.84467L1.07915 4.75628L5.62301 9.621L12.8122 0L14 0.95841Z" fill="#949494"/>
-                                    </svg>
+                                    <span class="label">
+                                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0.95841L5.74934 12L0 5.84467L1.07915 4.75628L5.62301 9.621L12.8122 0L14 0.95841Z" fill="#949494"/>
+                                        </svg>
+                                    </span>
+                                    <span>Согласен на обработку данных</span>
+
                                 </label>
-                                <span>Согласен на обработку данных</span>
+
                             </div>
                             <div class="calculator__form-item-input checkbox-item">
 
                                 <input id="mail-check" type="checkbox">
                                 <label for="mail-check">
-                                    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0.95841L5.74934 12L0 5.84467L1.07915 4.75628L5.62301 9.621L12.8122 0L14 0.95841Z" fill="#949494"/>
-                                    </svg>
+                                    <span class="label">
+                                        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0.95841L5.74934 12L0 5.84467L1.07915 4.75628L5.62301 9.621L12.8122 0L14 0.95841Z" fill="#949494"/>
+                                        </svg>
+                                    </span>
+                                    
+                                    <span>Подписаться на рассылку </span>
+
                                 </label>
-                                <span>Подписаться на рассылку </span>
+                            </div>
+                            <div id="checkForm2" class="checkForm hidden">
+                                Вы заполнили не все поля, проверьте форму
                             </div>
                             
                         </div>
@@ -733,8 +749,10 @@
                 <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 1H3.5V0H13.5C14.3281 0 15 0.671631 15 1.5H18.9111C19.2266 1.5 19.5273 1.59888 19.7754 1.77417C19.8359 1.81714 19.8936 1.86475 19.9482 1.9165C20.0283 1.99268 20.0996 2.07788 20.1611 2.17114L20.1904 2.21582L20.2227 2.27148L22.4209 6.22729L23.7002 7.93335C23.8945 8.19287 24 8.50879 24 8.83325V13.5V14H23.5H21.8293C21.4175 15.1652 20.3062 16 19 16C17.6938 16 16.5825 15.1652 16.1707 14H9.82929C9.41746 15.1652 8.30622 16 7 16C5.69378 16 4.58254 15.1652 4.17071 14H1V13H4C4 11.3431 5.34315 10 7 10C8.65685 10 10 11.3431 10 13H16C16 11.3431 17.3431 10 19 10C20.6569 10 22 11.3431 22 13H23V8.83325C23 8.7251 22.9648 8.61987 22.9004 8.53345L21.75 7H14.5H14V6.5V1.5C14 1.38281 13.96 1.27515 13.8926 1.18994C13.8008 1.07422 13.6592 1 13.5 1ZM17 13C17 14.1046 17.8954 15 19 15C20.1046 15 21 14.1046 21 13C21 11.8954 20.1046 11 19 11C17.8954 11 17 11.8954 17 13ZM15 6V2.5H18.9111C18.9414 2.5 18.9717 2.50269 19.001 2.50806L19.0508 2.52002C19.0918 2.53174 19.1309 2.54858 19.167 2.57007C19.2422 2.6145 19.3047 2.67847 19.3486 2.75708L21.1504 6H15ZM8 3H1V4H8V3ZM1 9H5V10H1V9ZM7 15C8.10457 15 9 14.1046 9 13C9 11.8954 8.10457 11 7 11C5.89543 11 5 11.8954 5 13C5 14.1046 5.89543 15 7 15ZM7 6H0V7H7V6Z" fill="#6D6F81"/>
                 </svg>
+                <a href="">
+                    Условия доставки
 
-                Условия доставки
+                </a>
                     
             </div>
         </div>
