@@ -41,6 +41,59 @@ body {
   padding-right: 20px !important;
 }
 
+.calculator__step .is-open .choices__inner {
+  border: 1px solid #e1e1e1;
+}
+
+.calculator__step .is-focused .choices__inner {
+  border: 1px solid #e1e1e1;
+}
+
+.calculator__step .choices__inner {
+  border: 1px solid #e1e1e1;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
+  z-index: 15;
+}
+
+.calculator__step .choices__list--dropdown {
+  border: 1px solid #e1e1e1 !important;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
+  z-index: 15;
+  margin-top: -4px;
+  padding-top: 4px;
+}
+
+.calculator__step .choices__inner {
+  z-index: 10;
+  position: relative;
+}
+
+.calculator__step .choices,
+.calculator__step .choices__inner,
+.calculator__step .choices__list {
+  min-width: 250px;
+  max-width: 100%;
+  background: #fff;
+  color: #949494;
+}
+
+.calculator__step .choices[data-type*=select-one]::after {
+  z-index: 11;
+  border-color: #949494 transparent transparent;
+}
+
+.calculator__step .choices[data-type*=select-one].is-open::after {
+  border-color: transparent transparent #949494;
+}
+
+.calculator__step .choices__list--dropdown .choices__placeholder {
+  display: none;
+}
+
 .hidden {
   display: none !important;
 }
@@ -319,59 +372,6 @@ input:checked + .calculator__progress-stage .calculator__progress-num {
   align-items: center;
 }
 
-.calculator__form-item-input .is-open .choices__inner {
-  border: 1px solid #e1e1e1;
-}
-
-.calculator__form-item-input .is-focused .choices__inner {
-  border: 1px solid #e1e1e1;
-}
-
-.calculator__form-item-input .choices__inner {
-  border: 1px solid #e1e1e1;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  border-radius: 4px;
-  z-index: 15;
-}
-
-.calculator__form-item-input .choices__list--dropdown {
-  border: 1px solid #e1e1e1 !important;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  border-radius: 4px;
-  z-index: 15;
-  margin-top: -4px;
-  padding-top: 4px;
-}
-
-.calculator__form-item-input .choices__inner {
-  z-index: 10;
-  position: relative;
-}
-
-.calculator__form-item-input .choices,
-.calculator__form-item-input .choices__inner,
-.calculator__form-item-input .choices__list {
-  width: 250px;
-  max-width: 100%;
-  background: #fff;
-  color: #949494;
-}
-
-.calculator__form-item-input .choices[data-type*=select-one]::after {
-  z-index: 11;
-  border-color: #949494 transparent transparent;
-}
-
-.calculator__form-item-input .choices[data-type*=select-one].is-open::after {
-  border-color: transparent transparent #949494;
-}
-
-.calculator__form-item-input .choices__list--dropdown .choices__placeholder {
-  display: none;
-}
-
 .calculator__form-item-input input[type=text] {
   border: 1px solid #e1e1e1;
   border-bottom: 2px solid #e1e1e1;
@@ -537,6 +537,10 @@ input:checked + .calculator__progress-stage .calculator__progress-num {
   width: fit-content;
 }
 
+.calculator__result .calculator__form-item-input input[type="checkbox"] + label {
+  padding-bottom: 7px;
+}
+
 .calculator__result-sub-info {
   font-size: 14px;
   font-style: normal;
@@ -626,8 +630,12 @@ input:checked + .calculator__progress-stage .calculator__progress-num {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   place-items: center;
+}
+
+.calculator__result-btns .checkbox-item:nth-child(2) {
+  margin-top: 5px;
 }
 
 .calculator__result-btns > * {

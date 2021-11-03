@@ -10,6 +10,49 @@ body
   box-sizing: border-box
 .choices__list--dropdown .choices__item--selectable 
   padding-right: 20px !important
+.calculator__step
+  .is-open .choices__inner
+    border: 1px solid #e1e1e1 
+
+  .is-focused .choices__inner
+    border: 1px solid #e1e1e1 
+
+  .choices__inner
+    border: 1px solid #e1e1e1 
+    -webkit-box-sizing: border-box
+    box-sizing: border-box
+    border-radius: 4px
+    z-index: 15
+
+  .choices__list--dropdown
+    border: 1px solid #e1e1e1 !important
+    -webkit-box-sizing: border-box
+    box-sizing: border-box
+    border-radius: 4px
+    z-index: 15
+    margin-top: -4px
+    padding-top: 4px
+
+  .choices__inner
+    z-index: 10
+    position: relative
+
+  .choices, .choices__inner, .choices__list
+    min-width: 250px
+    max-width: 100%
+    background: #fff
+    color: #949494
+
+  .choices[data-type*=select-one]
+    &::after
+      z-index: 11
+      border-color: #949494 transparent transparent
+
+    &.is-open::after
+      border-color: transparent transparent #949494
+
+  .choices__list--dropdown .choices__placeholder
+    display: none
 
 .hidden
   display: none !important
@@ -241,49 +284,7 @@ input:checked + .calculator__progress-stage
   -webkit-box-align: center
   -ms-flex-align: center
   align-items: center
-  .is-open .choices__inner
-    border: 1px solid #e1e1e1 
-
-  .is-focused .choices__inner
-    border: 1px solid #e1e1e1 
-
-  .choices__inner
-    border: 1px solid #e1e1e1 
-    -webkit-box-sizing: border-box
-    box-sizing: border-box
-    border-radius: 4px
-    z-index: 15
-
-  .choices__list--dropdown
-    border: 1px solid #e1e1e1 !important
-    -webkit-box-sizing: border-box
-    box-sizing: border-box
-    border-radius: 4px
-    z-index: 15
-    margin-top: -4px
-    padding-top: 4px
-
-  .choices__inner
-    z-index: 10
-    position: relative
-
-  .choices, .choices__inner, .choices__list
-    width: 250px
-    max-width: 100%
-    background: #fff
-    color: #949494
-
-  .choices[data-type*=select-one]
-    &::after
-      z-index: 11
-      border-color: #949494 transparent transparent
-
-    &.is-open::after
-      border-color: transparent transparent #949494
-
-  .choices__list--dropdown .choices__placeholder
-    display: none
-
+  
   input
     &[type=text]
       border: 1px solid #e1e1e1
@@ -409,6 +410,9 @@ input:checked + .calculator__progress-stage
   width: -moz-fit-content
   width: fit-content
 
+  .calculator__form-item-input input[type="checkbox"] + label
+    padding-bottom: 7px
+
 // .calculator__result-wrapper
 //   place-self: end
 //   display: grid
@@ -495,9 +499,10 @@ input:checked + .calculator__progress-stage
   -webkit-box-direction: normal
   -ms-flex-direction: column
   flex-direction: column
-  gap: 15px
+  gap: 10px
   place-items: center
-
+  .checkbox-item:nth-child(2)
+    margin-top: 5px
   > *
     display: grid
     -webkit-box-align: center

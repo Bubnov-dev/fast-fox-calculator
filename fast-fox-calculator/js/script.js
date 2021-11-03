@@ -438,7 +438,7 @@ function result(){
       let priceDollar = (basePrice * cf * S)
       let priceRub = (priceDollar*cfD)
 
-      $(".calculator__result-price-dollar .calculator__result-value").html(Math.ceil(priceDollar))
+      $(".calculator__result-price-dollar .calculator__result-value").html(priceDollar.toFixed(2))
       $(".calculator__result-price-rub .calculator__result-value").html(Math.ceil(priceRub));
 
   });
