@@ -85,7 +85,6 @@ selects();
 inputs = $(".gerber-file")
 inputs.each(function() {
   $(this).on('change', function(e){
-  let thiss = $(this)
   let input = $(this)
 
   input.parent().find(".wrong-file").addClass("hidden")
@@ -218,6 +217,14 @@ jQuery.expr[':'].regex = function(elem, index, match) {
 
 let needDoubleReftesh = true
 function refresh(){
+  let tmpVal = choicesPanels.getValue().value
+
+  choicesPanels.destroy()
+  $('option').removeAttr("disabled")
+  selects()
+
+  choicesPanels.setChoiceByValue(tmpVal)
+
   console.log($("[name=\"materials\"]:checked").val())
   $(".calculator__form input").removeAttr("disabled")
   $("*").removeClass("wrong")
@@ -261,6 +268,18 @@ function refresh(){
   }
 
   if($("[name=\"designs\"]").val() > 1){
+    choicesPanels.destroy()
+
+    $('[name="panels"] [value="service"]').attr("disabled", "disabled")
+    $('[name="panels"] [value="separate"]').attr("disabled", "disabled")
+
+    choicesPanels = new Choices($('[name="panels"]')[0], {
+      searchEnabled: false,
+      itemSelectText: "",
+      placeholder: true,
+      placeholderValue: "none",
+    });
+  
     
     choicesPanels.setChoiceByValue("client")
 
@@ -275,6 +294,8 @@ function refresh(){
       $(".calculator__plats .calculator__form-item-title").html("Количество панелей")
       if($("[name=\"designs\"]").val() > 1){
         $("input:regex(name, numX|numY)").attr("disabled", "disabled");
+        $("input:regex(name, numX|numY)").val("")
+
       }
 
   }
@@ -305,7 +326,6 @@ function refresh(){
     let tmpVal = choicesPanels.getValue().value
     choicesPanels.destroy()
 
-    $('[name="panels"] [value="service"]').removeAttr("disabled")
 
     choicesPanels = new Choices($('[name="panels"]')[0], {
       searchEnabled: false,
