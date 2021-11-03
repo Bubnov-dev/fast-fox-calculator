@@ -108,12 +108,12 @@ inputs.each(function() {
 
     let ext  = fileName.split('.').pop();
     if (ext == "zip"){
-      thiss.parent().find(".calculator__form-item-subtitle").html(fileName); 
+      input.parent().find(".calculator__form-item-subtitle").html(fileName); 
     }
     else {
       input.val('');
-      thiss.parent().find(".wrong-file").removeClass("hidden")
-      thiss.parent().find(".calculator__form-item-subtitle").html("<div class=\"wrong-file\">Неверный тип или размер файла</div>Только .zip максимум 10МБ");
+      input.parent().find(".wrong-file").removeClass("hidden")
+      input.parent().find(".calculator__form-item-subtitle").html("<div class=\"wrong-file\">Неверный тип или размер файла</div>Только .zip максимум 10МБ");
     }
   }
   
