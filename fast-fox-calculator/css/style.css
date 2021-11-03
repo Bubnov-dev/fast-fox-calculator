@@ -37,8 +37,16 @@ body {
   box-sizing: border-box;
 }
 
+.choices__list--dropdown .choices__item--selectable {
+  padding-right: 20px !important;
+}
+
 .hidden {
   display: none !important;
+}
+
+.wrong-file {
+  color: red;
 }
 
 .wrong .calculator__form-item-input input,
@@ -92,14 +100,20 @@ body {
 }
 
 .calculator__info-tooltip {
+  color: black;
+  font-size: 12px;
   background: #e1e1e1;
   border-radius: 10px;
   margin-bottom: -10px;
   position: relative;
   padding: 1rem;
-  max-width: 200px;
+  max-width: 250px;
   display: none;
   z-index: 20;
+}
+
+.calculator__info-tooltip img {
+  max-width: 100%;
 }
 
 .calculator__info-tooltip[data-show] {
