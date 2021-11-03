@@ -1,7 +1,9 @@
 $(document).ready(function($){
 $(".calculator__form input").removeAttr("disabled")
+$("#progress-1").prop("checked", "checked")
 // $(".calculator__step input").prop("checked", false)
 $(".calculator__step input[type=\"text\"], .calculator__step textarea, .calculator__step select:not([name=\"panels\"]").val("")
+
 
 
 const buttons = document.querySelectorAll('.calculator__info');
@@ -82,6 +84,11 @@ const selects = () => {
 }
 
 selects();
+
+$("#new-btn").on("click", function(){
+  window.location.reload()
+})
+
 inputs = $(".gerber-file")
 inputs.each(function() {
   $(this).on('change', function(e){
@@ -91,7 +98,6 @@ inputs.each(function() {
   if (input[0].files[0].size > 10000000){
     input.val('');
     input.parent().find(".wrong-file").removeClass("hidden")
-    console.log(input.parent().find(".calculator__form-item-subtitle"))
     input.parent().find(".calculator__form-item-subtitle").html("<div class=\"wrong-file\">Неверный тип или размер файла</div>Только .zip максимум 10МБ");
 
   }
@@ -225,7 +231,6 @@ function refresh(){
 
   choicesPanels.setChoiceByValue(tmpVal)
 
-  console.log($("[name=\"materials\"]:checked").val())
   $(".calculator__form input").removeAttr("disabled")
   $("*").removeClass("wrong")
   $(".checkForm").addClass("hidden")
@@ -234,7 +239,6 @@ function refresh(){
 
   //Материал
   if($("[name=\"materials\"]:checked").val() == "alu"){
-    console.log("alu")
 
     $("[name=\"layers\"]:regex(value, 2|4|6)").attr("disabled", "disabled")
     $("[name=\"width-plate\"]:regex(value, 0.4|0.6|0.8|2.0)").attr("disabled", "disabled")
@@ -579,7 +583,7 @@ function checkOrder(){
       mainCheckedInputs.add($(this).attr('name'))
     }
   })
-  $(".calculator__main select, .calculator__main textarea").each(function(){
+  $(".calculator__main select").each(function(){
     if ($(this).val()!=""){
       mainCheckedInputs.add($(this).attr('name'))
     }
@@ -597,14 +601,14 @@ function checkOrder(){
         calculatorCheckedInputs.add($(this).attr('name'))
       }
     })
-    $(".calculator__stencil select, .calculator__stencil textarea").each(function(){
+    $(".calculator__stencil select").each(function(){
       if ($(this).val()!=""){
         calculatorCheckedInputs.add($(this).attr('name'))
       }
     })
   }
 
-  if (mainAllInputs.size == mainCheckedInputs.size && calculatorAallInputs.size == calculatorCheckedInputs.size){
+  if (mainAllInputs.size <= mainCheckedInputs.size && calculatorAallInputs.size  <= calculatorCheckedInputs.size){
     canOrder = true
   }
   else{
@@ -627,7 +631,8 @@ function checkOrder(){
       }
     });
   }
-
+  console.log(mainAllInputs)
+  console.log(mainCheckedInputs)
   return canOrder;
 }
 function checkOrder2(){
@@ -692,7 +697,7 @@ if(checkOrder2()){
 
 
     var formData = new FormData();
-    formData.append("gerber-file", $("#gerber-file").prop('files')[0], "newfile.zip")
+    formData.append("gerber-file", $("#gerber-file").prop('files')[0], "gerber.zip")
     $.ajax({
         url: 'file.php',
         type: "POST",
@@ -710,7 +715,7 @@ if(checkOrder2()){
     });
     if ($('#stencil').is(":checked")){
         var formData2 = new FormData();
-        formData2.append("gerber-file-2", $("#gerber-file-2").prop('files')[0], "newfile-2.zip")
+        formData2.append("gerber-file", $("#gerber-file-2").prop('files')[0], "gerber-2.zip")
         $.ajax({
             url: 'file.php',
             type: "POST",
@@ -748,24 +753,24 @@ let gerber2;
 function readyJson(url, num){
 
 
-if(num == 0)
-  gerber1 = url
-else
-  gerber2 = url
+  if(num == 0)
+    gerber1 = url
+  else
+    gerber2 = url
 
-if (ready==0){
-  ready++
-}
-else if (ready == 1){
-  getObject(gerber1, gerber2)
-}
+  if (ready==0){
+    ready++
+  }
+  else if (ready == 1){
+    getObject(gerber1, gerber2)
+  }
 }
 
 function getObject(gerber1, gerber2){
   let checkedInputs = new Set();
   let obj = {}
   $(".calculator__main input:not(#stencil), .calculator__step-2 input").each(function(){
-    if ($(this).is("[type=\"radio\"]:checked") || ($(this).is("[type=\"text\"]") && $(this).val()!="") && !$("input").is("[type=\"file\"]")){
+    if ($(this).is("[type=\"radio\"]:checked") || ($(this).is("[type=\"text\"]") && $(this).val()!="") && !$(this).is("[type=\"file\"]")){
       checkedInputs.add($(this).attr('name'))
       let str = $(this).attr('name')
       obj[str]= $(this).val()
@@ -782,7 +787,7 @@ function getObject(gerber1, gerber2){
   if($("#stencil").is(":checked")){
     
     $(".calculator__stencil input").each(function(){
-      if ($(this).is("[type=\"radio\"]:checked") || ($(this).is("[type=\"text\"]") && $(this).val()!="")&& !$("input").is("[type=\"file\"]")){
+      if ($(this).is("[type=\"radio\"]:checked") || ($(this).is("[type=\"text\"]") && $(this).val()!="")&& !$(this).is("[type=\"file\"]")){
         checkedInputs.add($(this).attr('name'))
         let str = $(this).attr('name')
         obj[str]= $(this).val()
@@ -797,7 +802,6 @@ function getObject(gerber1, gerber2){
     })
   }
 
-  console.log("checkedInputs")
 
   obj["gerber-file-main"] = gerber1
   obj["gerber-file-stencil"] = gerber2
